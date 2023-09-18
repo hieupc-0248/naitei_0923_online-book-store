@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/carts', [CartController::class, 'index'])
-        ->name('cart.index');
+    Route::resource('carts', CartController::class);
+    Route::post('/orders', [OrderController::class, 'store'])
+        ->name('orders.store');
 });
 
 Route::middleware('auth')->group(function () {
