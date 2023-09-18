@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/carts', [CartController::class, 'index'])
         ->name('cart.index');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 });
 
 
