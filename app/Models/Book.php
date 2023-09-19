@@ -23,7 +23,7 @@ class Book extends Model
 
     public function categories()
     {
-        return $this->BelongsToMany(Category::class);
+        return $this->BelongsToMany(Category::class, 'category_book');
     }
 
     public function reviews()
