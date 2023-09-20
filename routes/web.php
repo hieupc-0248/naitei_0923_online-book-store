@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [CategoryController::class, 'getAllCategoryAndBook'])
+    ->name('homepage');
 
 Route::get('/dashboard', [CategoryController::class, 'getAllCategoryAndBook'])
     ->middleware(['auth'])

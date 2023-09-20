@@ -52,7 +52,7 @@ class CartController extends Controller
 
             $cart->save();
         } else {
-            return redirect()->back()->withErrors(['error_cart' => 'The book already exists in the shopping cart']);
+            return redirect()->back()->withErrors(["error_cart_{$request['book']}" => __('error.already_in_cart')]);
         }
         return back();
     }

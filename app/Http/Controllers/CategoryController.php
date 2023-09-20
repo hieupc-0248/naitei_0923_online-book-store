@@ -14,6 +14,6 @@ class CategoryController extends Controller
         $categories = Category::all();
         $books = Book::with('categories')->paginate(16);
 
-        return view('dashboard', ['categories' => $categories, 'books' => $books]);
+        return view('welcome', ['categories' => $categories, 'books' => $books]);
     }
 }
