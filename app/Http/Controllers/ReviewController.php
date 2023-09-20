@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\User;
+use App\Http\Requests\StoreReviewRequest;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
-class CartController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +17,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $cartItems = Auth::user()->carts;
-
-        return view('cart.index', compact('cartItems', 'user'));
+        //
     }
 
     /**
@@ -39,31 +36,29 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreReviewRequest $request)
     {
-        $user = Auth::user();
-        $cart = new Cart();
-        $books = DB::table('carts')->where('user_id', $user->id)->where('book_id', $request['book'])->get();
+        $validated = $request->validated();
 
-        if ($books->isEmpty()) {
-            $cart->user_id = $user->id;
-            $cart->quantity = 1;
-            $cart->book_id = $request['book'];
+        $review = new Review();
 
-            $cart->save();
-        } else {
-            return redirect()->back()->withErrors(['error_cart' => 'The book already exists in the shopping cart']);
-        }
+        $review->user_id = Auth::user()->id;
+        $review->content = $validated['content'];
+        $review->book_id = $validated['book'];
+        $review->rating = $validated['rating'];
+
+        $review->save();
+
         return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cart  $cart
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show(Review $review)
     {
         //
     }
@@ -71,10 +66,10 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Cart  $cart
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cart $cart)
+    public function edit(Review $review)
     {
         //
     }
@@ -83,10 +78,10 @@ class CartController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, Review $review)
     {
         //
     }
@@ -94,13 +89,11 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cart  $cart
+     * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy(Review $review)
     {
-        $cart->delete();
-
-        return redirect()->route('carts.index');
+        //
     }
 }

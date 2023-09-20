@@ -82,6 +82,8 @@ return [
 
     'locale' => 'en',
 
+    'book_rating' => 5,
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
