@@ -37,8 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class);
     Route::resource('reviews', ReviewController::class);
-    Route::post('/orders', [OrderController::class, 'store'])
-        ->name('orders.store');
+    Route::resource('orders', OrderController::class);
 });
 
 Route::middleware('auth')->group(function () {
