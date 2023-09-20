@@ -11,7 +11,6 @@
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
-
         <button class="p-2 bg-blue-500 text-white rounded-lg" id="searchButton">{{ __('Search') }}</button>
     </div>
 
@@ -29,11 +28,9 @@
             </div>
         @endforeach
     </div>
-
     <div class="my-8 flex justify-center items-center">
         {{ $books->links() }}
     </div>
-
 </x-app-layout>
 
 <script src="{{ asset('js/dashboard.js') }}" defer></script>

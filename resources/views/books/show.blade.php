@@ -57,9 +57,9 @@
                             <x-button class="mt-3 w-36 h-12 flex justify-center bg-red-700"> {{ __('Add to cart') }}
                             </x-button>
                         </form>
-                        @if($errors->has('error_cart'))
+                        @if($errors->has('error_cart_' . $book->id))
                             <div class="text-red-500">
-                                {{ __('Error: :error_cart', ['error_cart' => $errors->first('error_cart')]) }}
+                            {{ __('Error: :error_cart', ['error_cart' => $errors->first("error_cart_{$book->id}")]) }}
                             </div>
                         @endif
                     </div>
