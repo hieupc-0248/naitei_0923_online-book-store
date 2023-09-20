@@ -18,7 +18,6 @@ class CategoryBookFactory extends Factory
         return [
             'category_id' => Category::all()->random()->id,
             'book_id' => Book::all()->random()->id,
-            'price' => $this->faker->numberBetween(1, 1000) * 10000,
         ];
     }
 }

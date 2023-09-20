@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class BookController extends Controller
 {
@@ -83,5 +84,26 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         //
+    }
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('searchTerm');
+        $categoryId = $request->input('categoryId');
+
+        $query = Book::query();
+
+        if ($categoryId != 'all') {
+            $query->whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('categories.id', $categoryId);
+            });
+        }
+
+        if ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        $books = $query->paginate(16);
+
+        return response()->json(['books' => $books]);
     }
 }
