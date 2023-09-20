@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,5 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 });
 
+Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
 
 require __DIR__ . '/auth.php';
