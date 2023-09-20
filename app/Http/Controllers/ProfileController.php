@@ -34,7 +34,6 @@ class ProfileController extends Controller
         $request->user()->phone = $validated['phone'];
         $request->user()->address = $validated['address'];
         $request->user()->email = $validated['email'];
-        $request->user()->password = Hash::make($validated['password']);
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
