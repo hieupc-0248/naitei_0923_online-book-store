@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $orders = $user->orders->sortByDesc('created_at');
+
+        return view('orders.index', compact('orders', 'user'));
     }
 
     /**
@@ -47,11 +51,21 @@ class OrderController extends Controller
 
         $order->save();
 
+        $cartItems = Cart::where('user_id', $user->id)->get();
+
+        foreach ($cartItems as $cartItem) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->book_id = $cartItem->book_id;
+            $orderDetail->quantity = $cartItem->quantity;
+            $orderDetail->order_id = $order->id;
+            $orderDetail->save();
+        }
+
         $carts = Cart::where('user_id', $user->id)->get();
 
         DB::table('carts')->whereIn('id', $carts->pluck('id'))->delete();
 
-        return redirect('/carts');
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -62,7 +76,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return view('orderDetails.index', ['order' => $order]);
     }
 
     /**
