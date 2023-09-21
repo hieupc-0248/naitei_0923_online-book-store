@@ -4,7 +4,7 @@
     </div>
 
     <div class="my-4 flex justify-center items-center">
-        <input type="text" class="p-2 border border-gray-300 rounded-lg w-1/2 mr-2" placeholder="Search..." id="searchInput">
+        <input type="text" class="p-2 border border-gray-300 rounded-lg w-1/2 mr-2" placeholder="{{ __('Search...') }}" id="searchInput">
         <select class="p-2 border border-gray-300 rounded-lg mr-2" id="categorySelect">
             <option value="all">{{ __('Category') }}</option>
             @foreach ($categories as $category)

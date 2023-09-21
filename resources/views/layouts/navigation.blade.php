@@ -15,6 +15,12 @@
                     <x-nav-link class="text-xl" :href="route('homepage')" :active="request()->routeIs('dashboard')">
                         {{ __('Bookstore') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('locale', ['lang' => 'vi'])">
+                        {{ __('VI') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('locale', ['lang' => 'en'])">
+                        {{ __('EN') }}
+                    </x-nav-link>
                 </div>
             </div>
 
