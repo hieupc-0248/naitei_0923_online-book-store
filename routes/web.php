@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +44,13 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', function () {
+        return view('layouts.admin');
+    });
+    Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
 });
 
 Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
