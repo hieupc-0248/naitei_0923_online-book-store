@@ -15,29 +15,25 @@
     </div>
 
     <div class="grid grid-cols-4 gap-5 justify-center mx-72" id="bookList">
-        @foreach ($books as $book)
-            <div class="w-64 h-80 px-6 py-4 rounded-lg overflow-hidden shadow-lg bg-white flex flex-col items-center mx-auto">
-                <img class="w-32 h-32 object-cover" src="{{ asset('/storage/default.png') }}" alt="{{ $book->name }}">
-                <div class="flex flex-col justify-between text-center">
-                    <div class="flex flex-col justify-between h-24">
-                        <a href="books/{{$book->id}}" class="font-bold text-xl mb-2">{{ $book->name }}</a>
-                        <p class="text-gray-700 text-lg text-red-600 font-semibold">$ {{ $book->price }}</p>
-                    </div>
-                    <form action="{{ route('carts.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" id="book" name="book" value="{{ $book->id }}">
-                        <x-button class="px-4 text-white rounded-lg bg-blue-500 hover:bg-blue-700 focus:outline-none addToCartButton">
-                            {{ __('Add To Cart') }}
-                        </x-button>
-                        @if($errors->has('error_cart_' . $book->id))
-                            <div class="text-red-500">
-                                {{ __(':error_cart', ['error_cart' => $errors->first("error_cart_{$book->id}")]) }}
-                            </div>
-                        @endif
-                    </form>
+       @foreach ($books as $book)
+        <div class="w-64 h-80 px-6 py-4 rounded-lg overflow-hidden shadow-lg bg-white flex flex-col items-center mx-auto">
+            <img class="w-32 h-32 object-cover" src="{{ asset('/storage/default.png') }}" alt="{{ $book->name }}">
+            <div class="flex flex-col justify-between text-center">
+                <div class="flex flex-col justify-between h-24">
+                    <a href="books/{{$book->id}}" class="font-bold text-xl mb-2">{{ $book->name }}</a>
+                    <p class="text-gray-700 text-lg text-red-600 font-semibold">$ {{ $book->price }}</p>
                 </div>
+                <form class="add-to-cart-form" data-book-id="{{ $book->id }}">
+                    @csrf
+                    <x-button class="px-4 text-white rounded-lg bg-blue-500 hover:bg-blue-700 focus:outline-none addToCartButton">
+                        {{ __('Add To Cart') }}
+                    </x-button>
+                </form>
+                <div class="error-info" id="error-info-{{ $book->id }}"></div>
+                <div class="success-info" id="success-info-{{ $book->id }}"></div>
             </div>
-        @endforeach
+        </div>
+    @endforeach
     </div>
 
     <div class="my-8 flex justify-center items-center">
@@ -47,3 +43,4 @@
 </x-app-layout>
 
 <script src="{{ asset('js/dashboard.js') }}" defer></script>
+<script src="{{ asset('js/book.js') }}"></script>
