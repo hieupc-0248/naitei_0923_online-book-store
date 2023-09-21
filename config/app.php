@@ -84,6 +84,8 @@ return [
 
     'book_rating' => 5,
 
+    'media_type' => 2,
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
