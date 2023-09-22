@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
+use App\Models\Media;
+use App\Http\Requests\BookStoreRequest;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -25,7 +30,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('books.create', compact('categories'));
     }
 
     /**
@@ -34,10 +41,40 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function store(BookStoreRequest $request)
     {
-        //
+        $book = new Book([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'publisher' => $request->input('publisher'),
+            'publisher_year' => $request->input('publisher_year'),
+            'author' => $request->input('author'),
+            'page_nums' => $request->input('page_nums'),
+        ]);
+
+        $book->save();
+
+        $book->categories()->attach($request->input('category'));
+
+        if ($request->has("image")) {
+            $file = $request->file("image");
+            $disk = Storage::disk('public');
+            $path = $disk->putFile('img', $file);
+            $url = $disk->url($path);
+
+            $media = new Media();
+            $media->book_id = $book->id;
+            $media->link = $url;
+            $media->type = config('app.media_type');
+
+            $media->save();
+        }
+        
+        return redirect()->route('dashboard')->with('success', __('messages.book_added_successfully'));
     }
+
 
     /**
      * Display the specified resource.
