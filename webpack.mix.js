@@ -18,4 +18,5 @@ mix.js("resources/js/app.js", "public/js")
         require("tailwindcss"),
         require("autoprefixer"),
     ])
-    .postCss("resources/css/w3.css", "public/css", [require("autoprefixer")]);
+    .postCss("resources/css/w3.css", "public/css", [require("autoprefixer")])
+    .postCss("resources/css/google-fonts.css", "public/css", [require("autoprefixer")]);
