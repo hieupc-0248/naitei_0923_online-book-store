@@ -86,6 +86,11 @@ return [
 
     'media_type' => 2,
 
+    'max_book_cart' => 5,
+
+    'min_book_cart' => 1,
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
