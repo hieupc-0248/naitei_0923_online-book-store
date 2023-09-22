@@ -49,7 +49,7 @@ class ReviewController extends Controller
 
         $review->save();
 
-        return back();
+        return response()->json(['review' => $review, 'user'=> Auth::user()]);
     }
 
     /**

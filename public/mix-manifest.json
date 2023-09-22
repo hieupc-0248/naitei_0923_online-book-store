@@ -1,8 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/cart.js": "/js/cart.js",
+    "/js/book.js": "/js/book.js",
     "/js/dashboard.js": "/js/dashboard.js",
     "/css/google-fonts.css": "/css/google-fonts.css",
+    "/js/review.js": "/js/review.js",
     "/css/w3.css": "/css/w3.css",
     "/css/app.css": "/css/app.css"
 }

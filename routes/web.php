@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class);
-    Route::resource('reviews', ReviewController::class);
+    Route::post('/store-reviews', [ReviewController::class, 'store'])->name('store.review');
     Route::resource('orders', OrderController::class);
 });
 
