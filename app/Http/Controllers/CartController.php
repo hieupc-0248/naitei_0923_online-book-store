@@ -43,7 +43,7 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $cart = new Cart();
-        $books = DB::table('carts')->where('user_id', $user->id)->where('book_id', $request['book'])->get();
+        $books = $user->carts()->where('book_id', $request['book'])->get();
 
         if ($books->isEmpty()) {
             $cart->user_id = $user->id;
@@ -102,5 +102,55 @@ class CartController extends Controller
         $cart->delete();
 
         return redirect()->route('carts.index');
+    }
+
+    public function increase(Request $request)
+    {
+        $user = Auth::user();
+        $bookId = $request->input('book');
+
+        $cartItem = $user->carts()->where('book_id', $bookId)->first();
+
+        if ($cartItem) {
+            if ($cartItem->quantity < config('app.max_book_cart')) {
+                $newQuantity = $cartItem->quantity + 1;
+
+                DB::table('carts')
+                    ->where('user_id', $user->id)
+                    ->where('book_id', $bookId)
+                    ->update(['quantity' => $newQuantity]);
+
+                return response()->json(['success' => __('success.update_success')]);
+            } else {
+                return response()->json(['error' => __('error.maximum_quantity')]);
+            }
+        } else {
+            return response()->json(['error' => __('error.dont_exist')]);
+        }
+    }
+
+    public function decrease(Request $request)
+    {
+        $user = Auth::user();
+        $bookId = $request->input('book');
+
+        $cartItem = $user->carts()->where('book_id', $bookId)->first();
+
+        if ($cartItem) {
+            if ($cartItem->quantity > config('app.min_book_cart')) {
+                $newQuantity = $cartItem->quantity - 1;
+
+                DB::table('carts')
+                    ->where('user_id', $user->id)
+                    ->where('book_id', $bookId)
+                    ->update(['quantity' => $newQuantity]);
+
+                return response()->json(['success' => __('success.update_success')]);
+            } else {
+                return response()->json(['error' => __('error.minimum_quantity')]);
+            }
+        } else {
+            return response()->json(['error' => __('error.dont_exist')]);
+        }
     }
 }

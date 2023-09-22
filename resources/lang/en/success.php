@@ -14,5 +14,6 @@ return [
     */
 
     'add_to_cart_success' => 'Add book to cart successfully',
+    'update_success' =>  'Updated successfully',
 
 ];

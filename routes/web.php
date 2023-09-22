@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
     Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
     Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+    Route::post('/increase-quantity', [CartController::class, 'increase']);
+    Route::post('/decrease-quantity', [CartController::class, 'decrease']);
 });
 
 Route::middleware('auth')->group(function () {

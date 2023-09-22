@@ -14,5 +14,6 @@ return [
     */
 
     'add_to_cart_success' => 'Thêm sách vào giỏ hàng thành công',
+    'update_success' =>  'Đã cập nhật thành công',
 
 ];
