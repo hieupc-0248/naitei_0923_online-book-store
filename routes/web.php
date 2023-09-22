@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function () {
         return view('layouts.admin');
     });
     Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
 });
 
 Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');

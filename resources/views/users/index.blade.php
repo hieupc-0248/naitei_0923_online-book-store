@@ -12,7 +12,7 @@
                     {{ __("User list") }}
                 </div>
             </div>
-            <x-nav-link href="">
+            <x-nav-link href="{{  route('users.create')  }}">
                 <x-primary-button class="mt-4 text-gray-100">
                     {{ __('Create new user') }}
                 </x-primary-button>
@@ -47,7 +47,7 @@
                                         {{ __('Edit') }}
                                     </x-primary-button>
                                 </x-nav-link>
-                                <form action="" method="post" style="display:inline-block">
+                                <form action="{{  route('users.destroy', ['user' => $user->id])  }}" method="post" style="display:inline-block">
                                     @csrf
                                     @method('delete')
                                     <x-primary-button class="mt-4 text-gray-100">
