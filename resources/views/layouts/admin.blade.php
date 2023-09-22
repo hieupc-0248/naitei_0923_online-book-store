@@ -33,7 +33,7 @@
                             <a href="#" class="text-gray-300 hover:text-white">{{ __('Books') }}</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-gray-300 hover:text-white">{{ __('Users') }}</a>
+                            <a href="{{ route('users.index') }}" class="text-gray-300 hover:text-white">{{ __('Users') }}</a>
                         </li>
                         <li class="mb-2">
                             <a href="#" class="text-gray-300 hover:text-white">{{ __('Orders') }}</a>
@@ -43,7 +43,7 @@
                 </div>
             </aside>
 
-            <div style="display:inline-block;padding-left:220px">
+            <div style="display:inline-block;padding-left:220px;width:1400px;">
                 <!-- Page Heading -->
                 <header class="bg-white shadow max-w-7xl">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
