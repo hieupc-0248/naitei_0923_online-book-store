@@ -1,3 +1,6 @@
+import $ from 'jquery';
+window.$ = window.JQuery = $;
+
 function updateCartTotal() {
     const cartItems = document.querySelectorAll(".cart-item-wrap");
     let cartTotal = 0;
@@ -29,10 +32,28 @@ decreaseButtons.forEach(function (button) {
             .closest(".quantity-group")
             .querySelector("#quantity");
         const currentQuantity = parseInt(quantityElement.innerText);
-        if (currentQuantity > 0) {
+
+        if (currentQuantity > 1) {
             let quantity = currentQuantity - 1;
             quantityElement.innerText = quantity;
             updateCartTotal();
+
+            var cartItemId = quantityElement.getAttribute('data-id');
+
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+            });
+            $.ajax({
+                url: '/decrease-quantity/',
+                method: 'POST',
+                data: {
+                    _token: csrfToken,
+                    book: cartItemId,
+                },
+            })
         }
     });
 });
@@ -45,9 +66,28 @@ increaseButtons.forEach(function (button) {
             .closest(".quantity-group")
             .querySelector("#quantity");
         const currentQuantity = parseInt(quantityElement.innerText);
-        let quantity = currentQuantity + 1;
-        quantityElement.innerText = quantity;
-        updateCartTotal();
+
+        if (currentQuantity < 5) {
+            let quantity = currentQuantity + 1;
+            quantityElement.innerText = quantity;
+            updateCartTotal();
+            var cartItemId = quantityElement.getAttribute('data-id');
+
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+            $.ajax({
+                url: '/increase-quantity/',
+                method: 'POST',
+                data: {
+                    _token: csrfToken,
+                    book: cartItemId,
+                },
+            })
+        }
     });
 });
 

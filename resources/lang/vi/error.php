@@ -14,5 +14,7 @@ return [
     */
 
     'already_in_cart' => 'Sách này đã có trong giỏ hàng',
-
+    'maximum_quantity' => 'Số lượng tối đa',
+    'minimum_quantity' => 'Số lượng tối thiểu',
+    'dont_exist' => 'Cuốn sách không tồn tại',
 ];

@@ -14,5 +14,8 @@ return [
     */
 
     'already_in_cart' => 'The book already exists in the shopping cart',
+    'maximum_quantity' => 'Maximum quantity',
+    'minimum_quantity' => 'Minimum quantity',
+    'dont_exist' => 'The book dont exist',
 
 ];
