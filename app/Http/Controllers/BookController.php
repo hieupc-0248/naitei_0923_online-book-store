@@ -9,6 +9,7 @@ use App\Http\Requests\BookStoreRequest;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -71,7 +72,7 @@ class BookController extends Controller
 
             $media->save();
         }
-        
+
         return redirect()->route('dashboard')->with('success', __('messages.book_added_successfully'));
     }
 
@@ -124,23 +125,20 @@ class BookController extends Controller
     }
     public function search(Request $request)
     {
-        $searchTerm = $request->input('searchTerm');
-        $categoryId = $request->input('categoryId');
+        $categories = Category::all();
+        $searchTerm = $request->input('input-search');
+        $category = $request->input('category');
 
-        $query = Book::query();
-
-        if ($categoryId != 'all') {
-            $query->whereHas('categories', function ($query) use ($categoryId) {
-                $query->where('categories.id', $categoryId);
-            });
+        if ($category != 'all') {
+            $books = Book::select('books.*')
+                ->join('category_book', 'books.id', '=', 'category_book.book_id')
+                ->where('category_book.category_id', $category)
+                ->where('name', 'like', '%' . $searchTerm . '%')
+                ->paginate(config('app.paginate_book'));
+        } else {
+            $books = Book::where('name', 'like', '%' . $searchTerm . '%')->paginate(config('app.paginate_book'));
         }
 
-        if ($searchTerm) {
-            $query->where('name', 'like', '%' . $searchTerm . '%');
-        }
-
-        $books = $query->paginate(16);
-
-        return response()->json(['books' => $books]);
+        return view('search', compact('books', 'searchTerm', 'categories', 'category'));
     }
 }

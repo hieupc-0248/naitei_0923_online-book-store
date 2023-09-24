@@ -29,7 +29,7 @@ Route::get('/dashboard', [CategoryController::class, 'getAllCategoryAndBook'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-Route::get('/search', [BookController::class, 'search']);
+Route::get('/search', [BookController::class, 'search'])->name('search');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

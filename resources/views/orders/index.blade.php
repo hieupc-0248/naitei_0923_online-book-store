@@ -36,5 +36,8 @@
                 </tbody>
             </Table>
         </div>
+        <div class="my-8 flex justify-center items-center">
+            {{ $orders->links() }}
+        </div>z
     </div>
 </x-app-layout>
