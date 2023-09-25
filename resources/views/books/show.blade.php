@@ -8,7 +8,7 @@
     <div class="w-full flex justify-center mt-6">
         <div class="w-1/3 bg-white min-h-fit mr-6 rounded-lg flex flex-col p-6">
             <div id="large-image-container" class="flex justify-center">
-                <img id="large-image" class="w-80 h-80" src="{{ asset('/storage/default.png') }}" alt="">
+                <img id="large-image" class="w-80 h-80" src="{{ asset($book->medias[0]->link) }}" alt="">
             </div>
             <div class="flex justify-center h-32 items-center">
                 <div class="py-2 mt-4 w-10/12 bg-gray-200 flex justify-center">
