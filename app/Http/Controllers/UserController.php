@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ValidateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use Symfony\Component\VarDumper\Caster\RedisCaster;
 
 class UserController extends Controller
 {
@@ -80,7 +82,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -90,9 +92,17 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update([
+            'first_name' =>  $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     /**
