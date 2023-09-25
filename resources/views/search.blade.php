@@ -4,16 +4,22 @@
     </div>
 
     <form action="{{ route('search') }}" method="GET" class="my-4 flex justify-center items-center">
-        <input name="input-search" type="text" class="p-2 border border-gray-300 rounded-lg w-1/2 mr-2" placeholder="{{ __('Search...') }}" id="searchInput">
+        <input name="input-search" type="text" class="p-2 border border-gray-300 rounded-lg w-1/2 mr-2" placeholder="{{ __('Search...') }}" value="{{ $searchTerm }}">
         <select name="category" class="w-64 p-2 border border-gray-300 rounded-lg mr-2" id="categorySelect">
-            <option value="all">{{ __('Category') }}</option>
-            @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            <option value="all" {{ $category === 'all' ? 'selected' : '' }}>{{ __('Category') }}</option>
+            @foreach ($categories as $categoryItem)
+                <option value="{{ $categoryItem->id }}" {{ $category == $categoryItem->id ? 'selected' : '' }}>
+                    {{ $categoryItem->name }}
+                </option>
             @endforeach
         </select>
         <button type="submit" class="p-2 bg-blue-500 text-white rounded-lg" id="searchButton">{{ __('Search') }}</button>
     </form>
-
+    <div class="flex justify-center my-4">
+        <h2 class="font-semibold text-3xl text-gray-800  leading-tight">
+            {{ __('Search Results for') }} "{{ $searchTerm }}"
+        </h2>
+    </div>
     <div class="grid grid-cols-4 gap-5 justify-center mx-72" id="bookList">
         @foreach ($books as $book)
             <div class="w-64 h-80 px-6 py-4 rounded-lg overflow-hidden shadow-lg bg-white flex flex-col items-center mx-auto">
