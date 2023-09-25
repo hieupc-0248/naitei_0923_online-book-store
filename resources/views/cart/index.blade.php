@@ -36,7 +36,7 @@
                             <tr class="cart-item-wrap">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                     <div class="flex justify-center">
-                                        <img src="{{ asset('/storage/default.jpg') }}" class="w-32 h-32 object-cover">
+                                        <img src="{{ asset($cartItem->book->medias[0]->link) }}" class="w-32 h-32 object-cover">
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-xl font-medium text-gray-500 dark:text-gray-900">
