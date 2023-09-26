@@ -42,7 +42,7 @@
                                         {{ __('Show') }}
                                     </x-primary-button>
                                 </x-nav-link>
-                                <x-nav-link href="">
+                                <x-nav-link href="{{  route('users.edit', ['user' => $user->id])  }}">
                                     <x-primary-button class="mt-4 text-gray-100">
                                         {{ __('Edit') }}
                                     </x-primary-button>
