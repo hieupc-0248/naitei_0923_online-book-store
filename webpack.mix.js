@@ -16,6 +16,7 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/book.js", "public/js")
     .js('resources/js/dashboard.js', 'public/js')
     .js('resources/js/review.js', 'public/js')
+    .js('resources/js/deletebook.js', 'public/js')
     .postCss("resources/css/app.css", "public/css", [
         require("tailwindcss"),
         require("autoprefixer"),

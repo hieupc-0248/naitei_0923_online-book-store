@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookStoreRequest;
 use App\Models\Book;
+use App\Models\Cart;
 use App\Models\Category;
+use App\Models\CategoryBook;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +20,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::with('medias')->paginate(config('app.paginate_book'));
+
+        return view('books.list', ['books' => $books]);
     }
 
     /**
@@ -42,8 +46,7 @@ class BookController extends Controller
 
     public function store(BookStoreRequest $request)
     {
-        $book = new Book(
-            [
+        $book = new Book([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
                 'price' => $request->input('price'),
@@ -51,8 +54,7 @@ class BookController extends Controller
                 'publisher_year' => $request->input('publisher_year'),
                 'author' => $request->input('author'),
                 'page_nums' => $request->input('page_nums'),
-            ]
-        );
+        ]);
 
         $book->save();
 
@@ -60,9 +62,7 @@ class BookController extends Controller
 
         if ($request->has('image')) {
             $file = $request->file('image');
-            $disk = Storage::disk('public');
-            $path = $disk->putFile('img', $file);
-            $url = $disk->url($path);
+            $url = Storage::disk('public')->put('public/img', $file);
 
             $media = new Media();
             $media->book_id = $book->id;
@@ -72,7 +72,7 @@ class BookController extends Controller
             $media->save();
         }
 
-        return redirect()->route('dashboard')->with('success', __('messages.book_added_successfully'));
+        return redirect()->route('books.index')->with('success', __('messages.book_added_successfully'));
     }
 
     /**
@@ -83,12 +83,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view(
-            'books.show',
-            [
-                'book' => $book,
-            ]
-        );
+        return view('books.show', [
+            'book' => $book,
+        ]);
     }
 
     /**
@@ -99,7 +96,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $categories = Category::all();
+
+        return view('books.edit', compact('book', 'categories'));
     }
 
     /**
@@ -109,9 +108,34 @@ class BookController extends Controller
      * @param  \App\Models\Book $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookStoreRequest $request, Book $book)
     {
-        //
+        $book->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'publisher' => $request->publisher,
+            'publisher_year' => $request->publisher_year,
+            'author' => $request->author,
+            'page_nums' => $request->page_nums,
+        ]);
+
+        $book->categories()->sync($request->category);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $url = Storage::disk('public')->put('public/img', $file);
+
+            Media::where('book_id', '=', $book->id)->delete();
+            $media = new Media();
+            $media->book_id = $book->id;
+            $media->link = $url;
+            $media->type = config('app.media_type');
+
+            $media->save();
+        }
+
+        return redirect()->route('books.show', $book)->with('success', __('Book updated successfully.'));
     }
 
     /**
@@ -122,7 +146,19 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        try {
+            CategoryBook::where('book_id', $book->id)->delete();
+
+            Media::where('book_id', $book->id)->delete();
+
+            Cart::where('book_id', $book->id)->delete();
+
+            $book->delete();
+
+            return response()->json(['message' => __('Book deleted successfully')], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => __('Failed to delete the book')], 500);
+        }
     }
 
     public function search(Request $request)

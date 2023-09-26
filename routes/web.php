@@ -43,14 +43,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
-    Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
-    Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
-    Route::post('/increase-quantity', [CartController::class, 'increase']);
-    Route::post('/decrease-quantity', [CartController::class, 'decrease']);
-});
-
-Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
         return view('layouts.admin');
     });
@@ -62,6 +54,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+    Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+    Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+    Route::post('/increase-quantity', [CartController::class, 'increase']);
+    Route::post('/decrease-quantity', [CartController::class, 'decrease']);
+});
+
 Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
+
 
 require __DIR__ . '/auth.php';

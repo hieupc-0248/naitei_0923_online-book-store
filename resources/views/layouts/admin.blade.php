@@ -30,7 +30,7 @@
                     <!-- Sidebar Links -->
                     <ul class="mt-6">
                         <li class="mb-2">
-                            <a href="#" class="text-gray-300 hover:text-white">{{ __('Books') }}</a>
+                            <a href="{{ route('books.index') }}" class="text-gray-300 hover:text-white">{{ __('Books') }}</a>
                         </li>
                         <li class="mb-2">
                             <a href="{{ route('users.index') }}" class="text-gray-300 hover:text-white">{{ __('Users') }}</a>

@@ -150,6 +150,7 @@ return [
     'uppercase' => 'Trường :attribute phải là chữ in hoa.',
     'url' => 'Trường :attribute không giống với định dạng một URL.',
     'uuid' => 'Trường :attribute phải là một chuỗi UUID hợp lệ.',
+    'book_delete_failed'   => 'Xóa sách thất bại',
 
     /*
     |--------------------------------------------------------------------------
