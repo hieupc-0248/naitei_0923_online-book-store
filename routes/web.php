@@ -42,12 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', OrderController::class);
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/admin', function () {
-        return view('layouts.admin');
-    });
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('users.update');

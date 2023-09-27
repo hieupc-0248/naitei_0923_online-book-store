@@ -43,16 +43,16 @@
                 </div>
             </aside>
 
-            <div style="display:inline-block;padding-left:220px;width:1400px;">
+            <div class="max-w-full" style="display:inline-block;padding-left:220px;width:100vw;">
                 <!-- Page Heading -->
-                <header class="bg-white shadow max-w-7xl">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header class="bg-white shadow max-w-full">
+                    <div class="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header ?? '' }}
                     </div>
                 </header>
     
                 <!-- Page Content -->
-                <main class="max-w-7xl">
+                <main class="max-w-full">
                     {{ $slot ?? '' }}
                 </main>
             </div>

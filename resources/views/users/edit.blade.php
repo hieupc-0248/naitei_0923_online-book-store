@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="flex justify-center items-center h-screen pt-32">
+    <div class="flex justify-center items-center h-screen">
         <div class="w-full max-w-md">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-bold mb-4">{{ __('Edit User') }}</h2>
@@ -50,7 +50,7 @@
 
 
                     <div class="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-700 h-10 rounded-lg">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary text-gray-100">
                             {{ __('Save Changes') }}
                         </button>
                     </div>
