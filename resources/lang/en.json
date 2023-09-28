@@ -71,5 +71,11 @@
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "You're logged in!": "You're logged in!",
     "Your email address is unverified.": "Your email address is unverified.",
-    "Search Results for": "Search Results for"
+    "Search Results for": "Search Results for",
+    "User Information": "User Information",
+    "Edit User": "Edit User",
+    "Save Changes": "Save Changes",
+    "books in stock" : "books in stock",
+    "Have": "Have",
+    "Currently out of stock": "Currently out of stock"
 }

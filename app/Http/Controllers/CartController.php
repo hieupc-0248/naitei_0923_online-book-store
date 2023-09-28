@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -111,18 +112,18 @@ class CartController extends Controller
 
         $cartItem = $user->carts()->where('book_id', $bookId)->first();
 
-        if ($cartItem) {
-            if ($cartItem->quantity < config('app.max_book_cart')) {
-                $newQuantity = $cartItem->quantity + 1;
+        $book = Book::where('id', $bookId)->first();
 
+        if ($cartItem) {
+            $newQuantity = $cartItem->quantity + 1;
+            if ($newQuantity > $book->stock) {
+                return response()->json(['error' => __('error.maximum_quantity')]);
+            } else {
                 DB::table('carts')
                     ->where('user_id', $user->id)
                     ->where('book_id', $bookId)
                     ->update(['quantity' => $newQuantity]);
-
                 return response()->json(['success' => __('success.update_success')]);
-            } else {
-                return response()->json(['error' => __('error.maximum_quantity')]);
             }
         } else {
             return response()->json(['error' => __('error.dont_exist')]);
@@ -136,16 +137,21 @@ class CartController extends Controller
 
         $cartItem = $user->carts()->where('book_id', $bookId)->first();
 
+        $book = Book::where('id', $bookId)->first();
+
         if ($cartItem) {
             if ($cartItem->quantity > config('app.min_book_cart')) {
                 $newQuantity = $cartItem->quantity - 1;
+                if ($newQuantity > $book->stock) {
+                    return response()->json(['error' => __('error.maximum_quantity')]);
+                } else {
+                    DB::table('carts')
+                        ->where('user_id', $user->id)
+                        ->where('book_id', $bookId)
+                        ->update(['quantity' => $newQuantity]);
 
-                DB::table('carts')
-                    ->where('user_id', $user->id)
-                    ->where('book_id', $bookId)
-                    ->update(['quantity' => $newQuantity]);
-
-                return response()->json(['success' => __('success.update_success')]);
+                    return response()->json(['success' => __('success.update_success')]);
+                }
             } else {
                 return response()->json(['error' => __('error.minimum_quantity')]);
             }

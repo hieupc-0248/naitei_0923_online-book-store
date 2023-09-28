@@ -23,12 +23,16 @@
                         <a href="books/{{$book->id}}" class="font-bold text-xl mb-2">{{ $book->name }}</a>
                         <p class="text-gray-700 text-lg text-red-600 font-semibold">$ {{ $book->price }}</p>
                     </div>
-                    <form class="add-to-cart-form" data-book-id="{{ $book->id }}">
-                        @csrf
-                        <x-button class="px-4 text-white rounded-lg bg-blue-500 hover:bg-blue-700 focus:outline-none addToCartButton">
-                            {{ __('Add To Cart') }}
-                        </x-button>
-                    </form>
+                    @if ($book->stock != 0)
+                        <form class="add-to-cart-form" data-book-id="{{ $book->id }}">
+                            @csrf
+                            <x-button class="px-4 text-white rounded-lg bg-blue-500 hover:bg-blue-700 focus:outline-none addToCartButton">
+                                {{ __('Add To Cart') }}
+                            </x-button>
+                        </form>
+                    @else
+                        <p class="text-xl bg-red-300 rounded-lg p-1 text-gray-50">{{ __('Currently out of stock') }}</p>
+                    @endif
                     <div class="error-info" id="error-info-{{ $book->id }}"></div>
                     <div class="success-info" id="success-info-{{ $book->id }}"></div>
                 </div>

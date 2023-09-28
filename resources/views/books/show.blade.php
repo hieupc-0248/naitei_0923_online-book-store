@@ -23,6 +23,9 @@
             <div>
                 <h1 class="text-4xl font-bold">{{ $book->name }}</h1>
             </div>
+            <div class="">
+                <span class="text-base text-red-400 font-bold">{{ __("Have") }} {{ $book->stock }} {{ __("books in stock") }}</span>
+            </div>
             <div class="my-4">
                 <span class="text-3xl text-red-600 font-bold">${{ $book->price }}</span>
             </div>
@@ -48,12 +51,16 @@
                 <p class="ml-3 text-lg font-semibold">{{ $book->description }}</p>
             </div>
             <div>
-                <form class="add-to-cart-form2">
-                    @csrf
-                    <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
-                    <input type="hidden" id="book" name="book" value="{{ $book->id }}">
-                    <x-button class="mt-3 w-36 h-12 flex justify-center bg-red-700">{{ __('Add to cart') }}</x-button>
-                </form>
+                @if ($book->stock != 0)
+                    <form class="add-to-cart-form2">
+                        @csrf
+                        <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" id="book" name="book" value="{{ $book->id }}">
+                        <x-button class="mt-3 w-36 h-12 flex justify-center bg-red-700">{{ __('Add to cart') }}</x-button>
+                    </form>
+                @else
+                    <p class="w-64 text-xl mt-4 text-center bg-red-300 rounded-lg p-2 text-gray-50">{{ __('Currently out of stock') }}</p>
+                @endif
                 <div class="error-info" id="error-info"></div>
                 <div class="success-info" id="success-info"></div>
             </div>

@@ -45,11 +45,16 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-xl text-gray-500 dark:text-gray-900">
-                                    <div class="flex items-center justify-center quantity-group">
+                                    <div class="flex items-center justify-center quantity-group mt-4">
                                         <meta name="csrf-token" content="{{ csrf_token() }}">
                                         <button class="btn-decrease px-2 py-1 bg-blue-500 text-dark rounded-l hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-500">-</button>
-                                        <span id="quantity" data-id="{{ $cartItem->book_id }}" data-book-price="{{ $cartItem->book->price }}" class="px-4">{{ $cartItem->quantity }}</span>
+                                        <span id="quantity" data-id="{{ $cartItem->book_id }}" data-book-stock="{{ $cartItem->book->stock }}" data-book-price="{{ $cartItem->book->price }}" class="px-4">{{ $cartItem->quantity }}</span>
                                         <button class="btn-increase px-2 py-1 bg-blue-500 text-dark rounded-r hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-500">+</button>
+                                    </div>
+                                    <div class="flex justify-center error-info" id="error-info-{{ $cartItem->book_id }}">
+                                        <p class="text-base text-red-500">
+                                        {{ __("Have") }} {{ $cartItem->book->stock }} {{ __("books in stock") }}
+                                        </p>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-xl text-gray-500 dark:text-gray-900">

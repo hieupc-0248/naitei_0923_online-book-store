@@ -66,8 +66,9 @@ increaseButtons.forEach(function (button) {
             .closest(".quantity-group")
             .querySelector("#quantity");
         const currentQuantity = parseInt(quantityElement.innerText);
+        const stock = quantityElement.getAttribute('data-book-stock');
 
-        if (currentQuantity < 5) {
+        if (currentQuantity < stock) {
             let quantity = currentQuantity + 1;
             quantityElement.innerText = quantity;
             updateCartTotal();
