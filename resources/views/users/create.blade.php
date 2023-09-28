@@ -50,7 +50,7 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
                 <div class="flex text-gray-100 items-center justify-end mt-4">
-                    <x-primary-button class="ml-4">
+                    <x-primary-button class="ml-4 bg-blue-500">
                         {{ __('Create new user') }}
                     </x-primary-button>
                 </div>

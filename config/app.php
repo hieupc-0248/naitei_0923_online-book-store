@@ -94,6 +94,10 @@ return [
 
     'paginate_order' => 6,
 
+    'is_active' => 1,
+
+    'role_user' => 2,
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
