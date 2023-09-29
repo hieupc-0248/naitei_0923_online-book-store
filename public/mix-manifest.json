@@ -5,6 +5,7 @@
     "/js/dashboard.js": "/js/dashboard.js",
     "/js/review.js": "/js/review.js",
     "/js/deletebook.js": "/js/deletebook.js",
+    "/js/admin.js": "/js/admin.js",
     "/css/google-fonts.css": "/css/google-fonts.css",
     "/css/w3.css": "/css/w3.css",
     "/css/app.css": "/css/app.css"

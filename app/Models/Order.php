@@ -26,4 +26,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
+
+    public function getOrderStatusAttribute()
+    {
+        return isset(config('app.order_status')[$this->status])
+            ? config('app.order_status')[$this->status]
+            : config('app.order_status')['pending'];
+    }
 }

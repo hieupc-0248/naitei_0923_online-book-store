@@ -61,6 +61,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/orders', [OrderController::class, 'all'])->name('orders.all');
+    Route::get('/admin/orders/{order}', [OrderController::class, 'showDetail'])->name('orders.show_detail');
+    Route::post('/admin/orders/update', [OrderController::class, 'updateStatus'])->name('orders.update_status');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
     Route::post('/increase-quantity', [CartController::class, 'increase']);
