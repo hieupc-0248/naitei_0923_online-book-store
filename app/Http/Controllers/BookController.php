@@ -47,13 +47,14 @@ class BookController extends Controller
     public function store(BookStoreRequest $request)
     {
         $book = new Book([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'price' => $request->input('price'),
-                'publisher' => $request->input('publisher'),
-                'publisher_year' => $request->input('publisher_year'),
-                'author' => $request->input('author'),
-                'page_nums' => $request->input('page_nums'),
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'publisher' => $request->input('publisher'),
+            'publisher_year' => $request->input('publisher_year'),
+            'author' => $request->input('author'),
+            'page_nums' => $request->input('page_nums'),
+            'stock' => '0',
         ]);
 
         $book->save();
@@ -61,15 +62,30 @@ class BookController extends Controller
         $book->categories()->attach($request->input('category'));
 
         if ($request->has('image')) {
-            $file = $request->file('image');
-            $url = Storage::disk('public')->put('public/img', $file);
+            $avatarimage = $request->file('image');
 
-            $media = new Media();
-            $media->book_id = $book->id;
-            $media->link = $url;
-            $media->type = config('app.media_type');
+                $url = Storage::disk('public')->put('img', $avatarimage);
 
-            $media->save();
+                $media = new Media();
+                $media->book_id = $book->id;
+                $media->link = $url;
+                $media->type = config('app.avatar_media_type');
+
+                $media->save();
+        }
+
+        if ($request->has('images')) {
+            $images = $request->file('images');
+            foreach ($images as $image) {
+                $url = Storage::disk('public')->put('img', $image);
+
+                $media = new Media();
+                $media->book_id = $book->id;
+                $media->link = $url;
+                $media->type = config('app.normal_media_type');
+
+                $media->save();
+            }
         }
 
         return redirect()->route('books.index')->with('success', __('messages.book_added_successfully'));
@@ -122,17 +138,33 @@ class BookController extends Controller
 
         $book->categories()->sync($request->category);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $url = Storage::disk('public')->put('public/img', $file);
+        if ($request->has('image')) {
+            Media::where('book_id', '=', $book->id)->where('type', '=', config('app.avatar_media_type'))->delete();
+            $avatarimage = $request->file('image');
 
-            Media::where('book_id', '=', $book->id)->delete();
-            $media = new Media();
-            $media->book_id = $book->id;
-            $media->link = $url;
-            $media->type = config('app.media_type');
+                $url = Storage::disk('public')->put('img', $avatarimage);
 
-            $media->save();
+                $media = new Media();
+                $media->book_id = $book->id;
+                $media->link = $url;
+                $media->type = config('app.avatar_media_type');
+
+                $media->save();
+        }
+
+        if ($request->has('images')) {
+            Media::where('book_id', '=', $book->id)->where('type', '=', config('app.normal_media_type'))->delete();
+            $images = $request->file('images');
+            foreach ($images as $image) {
+                $url = Storage::disk('public')->put('img', $image);
+
+                $media = new Media();
+                $media->book_id = $book->id;
+                $media->link = $url;
+                $media->type = config('app.normal_media_type');
+
+                $media->save();
+            }
         }
 
         return redirect()->route('books.show', $book)->with('success', __('Book updated successfully.'));

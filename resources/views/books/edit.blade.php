@@ -77,8 +77,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="image" class="block font-bold mb-2">{{ __('Image') }}</label>
+                        <label for="image" class="block font-bold mb-2">{{ __('Avatar Image') }}</label>
                         <input type="file" class="form-input rounded-lg w-full" id="image" name="image">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="images" class="block font-bold mb-2">{{ __('More Image') }}</label>
+                        <input type="file" class="form-input rounded-lg w-full" id="images" name="images[]" multiple>
                     </div>
 
                     <div class="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-700 h-10 rounded-lg">

@@ -9,9 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
         books.data.forEach(book => {
             const bookElement = document.createElement('div');
             bookElement.classList.add('w-60', 'rounded-lg', 'overflow-hidden', 'shadow-lg', 'bg-white', 'flex', 'flex-col', 'items-center', 'mx-auto');
-
+    
+            const avtMedia = book.medias.find(media => media.type === "{{ config('app.avatar_media_type') }}");
+            const imageUrl = avtMedia ? avtMedia.link : "{{ asset('storage/default.jpg') }}";
+    
             bookElement.innerHTML = `
-                <img class="w-32 h-32 object-cover mt-2" src="/storage/default.jpg" alt="${book.name}">
+                <img class="w-32 h-32 object-cover" src="${imageUrl}" alt="${book.name}">
                 <div class="px-6 py-4 text-center">
                     <div class="font-bold text-xl mb-2">${book.name}</div>
                     <p class="text-gray-700 text-base">$ ${book.price}</p>

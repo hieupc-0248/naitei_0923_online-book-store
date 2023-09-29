@@ -8,12 +8,18 @@
     <div class="w-full flex justify-center mt-6">
         <div class="w-1/3 bg-white min-h-fit mr-6 rounded-lg flex flex-col p-6">
             <div id="large-image-container" class="flex justify-center">
-                <img id="large-image" class="w-80 h-80" src="{{ asset($book->medias[0]->link) }}" alt="">
+                @php
+                    $avtMedia = $book->medias->where('type', '=', config('app.avatar_media_type'))->first();
+                    $imageAvtUrl = $avtMedia ? asset(Storage::url($avtMedia->link)) : asset('storage/default.jpg');
+                @endphp
+                <img id="large-image" class="w-80 h-80" src="{{ $imageAvtUrl }}" alt="">
             </div>
             <div class="flex justify-center h-32 items-center">
                 <div class="py-2 mt-4 w-10/12 bg-gray-200 flex justify-center">
                     @foreach ($book->medias as $media)
-                    <img class="px-1 w-24 h-24" src="{{ asset($media->link) }}" alt="">
+                        @if ($media->type == config('app.normal_media_type'))
+                            <img class="px-1 w-24 h-24" src="{{ asset(Storage::url($media->link)) }}" alt="">
+                        @endif
                     @endforeach
                 </div>
             </div>
