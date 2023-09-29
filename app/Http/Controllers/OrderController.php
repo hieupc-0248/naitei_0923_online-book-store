@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -61,6 +62,12 @@ class OrderController extends Controller
             $orderDetail->quantity = $cartItem->quantity;
             $orderDetail->order_id = $order->id;
             $orderDetail->save();
+
+            $book = Book::where('id', $cartItem->book_id)->first();
+            if ($book) {
+                $newStock = $book->stock - $cartItem->quantity;
+                Book::where('id', $cartItem->book_id)->update(['stock' => $newStock]);
+            }
         }
 
         $carts = Cart::where('user_id', $user->id)->get();
