@@ -86,8 +86,6 @@ return [
 
     'media_type' => 2,
 
-    'max_book_cart' => 5,
-
     'min_book_cart' => 1,
 
     'paginate_book' => 16,
@@ -97,6 +95,17 @@ return [
     'is_active' => 1,
 
     'role_user' => 2,
+
+    'status_count' => 3,
+
+    'order_status' => [
+        'pending' => 0,
+        'processing' => 1,
+        'shipping' => 2,
+        'shipped' => 3,
+    ],
+
+    'shipped' => 'shipped',
 
     /*
     |--------------------------------------------------------------------------

@@ -121,4 +121,30 @@ class OrderController extends Controller
     {
         //
     }
+    public function all()
+    {
+        $orders = Order::orderBy('created_at', 'desc')->paginate(config('app.paginate_order'));
+
+        return view('admin.orders.list', ['orders' => $orders]);
+    }
+    public function showDetail(Order $order)
+    {
+        return view('admin.orders.show', ['order' => $order]);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $orderId = $request->input('orderId');
+        $newStatus = $request->input('newStatus');
+
+        $order = Order::find($orderId);
+
+        if ($order->status != $newStatus) {
+            $order->status = $newStatus;
+            $order->save();
+            return response()->json(['message' => __('success.status_update_success')]);
+        } else {
+            return response()->json(['error' => __('error.status_already')]);
+        }
+    }
 }

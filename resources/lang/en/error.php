@@ -17,5 +17,6 @@ return [
     'maximum_quantity' => 'Maximum quantity',
     'minimum_quantity' => 'Minimum quantity',
     'dont_exist' => 'The book dont exist',
+    'status_already' => 'Status is already the same',
 
 ];

@@ -17,4 +17,6 @@ return [
     'maximum_quantity' => 'Số lượng tối đa',
     'minimum_quantity' => 'Số lượng tối thiểu',
     'dont_exist' => 'Cuốn sách không tồn tại',
+    'status_already' => 'Trạng thái không thay đổi',
+
 ];

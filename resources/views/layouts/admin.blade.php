@@ -36,7 +36,7 @@
                             <a href="{{ route('users.index') }}" class="text-gray-300 hover:text-white">{{ __('Users') }}</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-gray-300 hover:text-white">{{ __('Orders') }}</a>
+                            <a href="{{ route('orders.all') }}" class="text-gray-300 hover:text-white">{{ __('Orders') }}</a>
                         </li>
                         <!-- Add more sidebar links as needed -->
                     </ul>
@@ -50,7 +50,7 @@
                         {{ $header ?? '' }}
                     </div>
                 </header>
-    
+
                 <!-- Page Content -->
                 <main class="max-w-full">
                     {{ $slot ?? '' }}
