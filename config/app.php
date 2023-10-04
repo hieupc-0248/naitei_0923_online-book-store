@@ -84,7 +84,9 @@ return [
 
     'book_rating' => 5,
 
-    'media_type' => 2,
+    'avatar_media_type' => 0,
+
+    'normal_media_type' => 1,
 
     'min_book_cart' => 1,
 

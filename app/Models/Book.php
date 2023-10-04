@@ -19,6 +19,7 @@ class Book extends Model
         'publisher_year',
         'author',
         'page_nums',
+        'stock',
     ];
 
     public function categories()

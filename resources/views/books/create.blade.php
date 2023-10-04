@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="category" class="block font-bold mb-2">Category</label>
+                        <label for="category" class="block font-bold mb-2">{{ __('Category') }}</label>
                         <select id="category" name="category[]" class="form-input rounded-lg w-full" multiple>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -76,8 +76,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="image" class="block font-bold mb-2">Image</label>
+                        <label for="image" class="block font-bold mb-2">{{ __('Avatar Image') }}</label>
                         <input type="file" class="form-input rounded-lg w-full" id="image" name="image">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="images" class="block font-bold mb-2">{{ __('More Image') }}</label>
+                        <input type="file" class="form-input rounded-lg w-full" id="images" name="images[]" multiple>
                     </div>
 
                     <div class="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-700 h-10 rounded-lg">

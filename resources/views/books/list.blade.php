@@ -12,8 +12,8 @@
         @foreach ($books as $book)
             <div class="w-60 rounded-lg overflow-hidden shadow-lg bg-white flex flex-col items-center mx-auto">
                 @php
-                    $media = $book->medias->first();
-                    $imageUrl = $media ? asset(Storage::url($media->link)) : asset('storage/default.jpg');
+                    $avtMedia = $book->medias->where('type', '=', config('app.avatar_media_type'))->first();
+                    $imageUrl = $avtMedia ? asset(Storage::url($avtMedia->link)) : asset('storage/default.jpg');
                 @endphp
                 <img class="w-32 h-32 object-cover" src="{{ $imageUrl }}" alt="{{ $book->name }}">
                 <div class="px-6 py-4 text-center">
