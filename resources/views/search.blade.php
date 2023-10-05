@@ -13,8 +13,27 @@
                 </option>
             @endforeach
         </select>
+        <label for="sortSelect">{{ __('Sort by') }}:</label>
+            <select name="sort" id="sortSelect" class="w-48 p-2 border border-gray-300 rounded-lg">
+                <option value="name_asc" {{ $sort === 'name_asc' ? 'selected' : '' }}>
+                    {{ __('Name A-Z') }}
+                </option>
+                <option value="name_desc" {{ $sort === 'name_desc' ? 'selected' : '' }}>
+                    {{ __('Name Z-A') }}
+                </option>
+                <option value="rating" {{ $sort === 'rating' ? 'selected' : '' }}>
+                    {{ __('Rating') }}
+                </option>
+                <option value="price_asc" {{ $sort === 'price_asc' ? 'selected' : '' }}>
+                    {{ __('Price Low-High') }}
+                </option>
+                <option value="price_desc" {{ $sort === 'price_desc' ? 'selected' : '' }}>
+                    {{ __('Price High-Low') }}
+                </option>
+            </select>
         <button type="submit" class="p-2 bg-blue-500 text-white rounded-lg" id="searchButton">{{ __('Search') }}</button>
     </form>
+
     <div class="flex justify-center my-4">
         <h2 class="font-semibold text-3xl text-gray-800  leading-tight">
             {{ __('Search Results for') }} "{{ $searchTerm }}"
@@ -23,10 +42,15 @@
     <div class="grid grid-cols-4 gap-5 justify-center mx-72" id="bookList">
         @foreach ($books as $book)
             <div class="w-64 h-80 px-6 py-4 rounded-lg overflow-hidden shadow-lg bg-white flex flex-col items-center mx-auto">
-                <img class="w-32 h-32 object-cover" src="{{ asset($book->medias[0]->link) }}" alt="{{ $book->name }}">
+                @php
+                    $avtMedia = $book->medias->where('type', '=', config('app.avatar_media_type'))->first();
+                    $imageUrl = $avtMedia ? asset(Storage::url($avtMedia->link)) : asset('storage/default.jpg');
+                @endphp
+                <img class="w-32 h-32 object-cover" src="{{ $imageUrl }}" alt="{{ $book->name }}"> 
                 <div class="flex flex-col justify-between text-center">
                     <div class="flex flex-col justify-between h-24">
                         <a href="books/{{$book->id}}" class="font-bold text-xl mb-2">{{ $book->name }}</a>
+                        <p class="text-gray-700 text-base">Rating: {{ number_format($book->average_rating, 1) }}</p>
                         <p class="text-gray-700 text-lg text-red-600 font-semibold">$ {{ $book->price }}</p>
                     </div>
                     <form class="add-to-cart-form" data-book-id="{{ $book->id }}">

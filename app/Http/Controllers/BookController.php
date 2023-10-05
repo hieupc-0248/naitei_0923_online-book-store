@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\CategoryBook;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -198,17 +199,43 @@ class BookController extends Controller
         $categories = Category::all();
         $searchTerm = $request->input('input-search');
         $category = $request->input('category');
+        $sort = $request->input('sort');
+
+        $books = Book::leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
+                    ->select('books.*', DB::raw('AVG(reviews.rating) as average_rating'))
+                    ->groupBy('books.id');
 
         if ($category !== 'all') {
-            $books = Book::select('books.*')
-                ->join('category_book', 'books.id', '=', 'category_book.book_id')
-                ->where('category_book.category_id', $category)
-                ->where('name', 'like', '%' . $searchTerm . '%')
-                ->paginate(config('app.paginate_book'));
-        } else {
-            $books = Book::where('name', 'like', '%' . $searchTerm . '%')->paginate(config('app.paginate_book'));
+            $books->join('category_book', 'books.id', '=', 'category_book.book_id')
+                ->where('category_book.category_id', $category);
         }
 
-        return view('search', compact('books', 'searchTerm', 'categories', 'category'));
+        if ($searchTerm) {
+            $books->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        switch ($sort) {
+            case 'name_asc':
+                $books->orderBy('name', 'asc');
+                break;
+            case 'name_desc':
+                $books->orderBy('name', 'desc');
+                break;
+            case 'rating':
+                $books->orderByDesc('average_rating');
+                break;
+            case 'price_asc':
+                $books->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $books->orderBy('price', 'desc');
+                break;
+            default:
+                break;
+        }
+
+        $books = $books->paginate(config('app.paginate_book'));
+
+        return view('search', compact('books', 'searchTerm', 'categories', 'category', 'sort'));
     }
 }

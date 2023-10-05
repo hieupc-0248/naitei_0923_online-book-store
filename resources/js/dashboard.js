@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const categorySelect = document.getElementById('categorySelect');
     const bookListElement = document.getElementById('bookList');
+    const sortSelect = document.getElementById('sortSelect');
 
     function updateBookList(books) {
         bookListElement.innerHTML = '';
@@ -31,8 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendSearchRequest() {
         const searchTerm = searchInput.value.toLowerCase();
         const categoryId = categorySelect.value;
+        const sortOption = sortSelect.value; 
 
-        fetch(`/search?searchTerm=${searchTerm}&categoryId=${categoryId}`)
+        fetch(`/search?searchTerm=${searchTerm}&categoryId=${categoryId}&sort=${sortOption}`)
             .then(response => response.json())
             .then(data => {
                 const books = data.books;
@@ -51,4 +53,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     categorySelect.addEventListener('change', filterBooks);
     searchInput.addEventListener('input', searchBooks);
+    sortSelect.addEventListener('change', filterBooks);
 });

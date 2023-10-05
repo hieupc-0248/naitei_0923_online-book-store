@@ -11,6 +11,14 @@
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
+        <label for="sortSelect">{{ __('Sort by') }}:</label>
+            <select name="sort" id="sortSelect" class="w-48 p-2 border border-gray-300 rounded-lg">
+                <option value="name_asc">{{ __('Name A-Z') }}</option>
+                <option value="name_desc">{{ __('Name Z-A') }}</option>
+                <option value="rating">{{ __('Rating') }}</option>
+                <option value="price_asc">{{ __('Price Low-High') }}</option>
+                <option value="price_desc">{{ __('Price High-Low') }}</option>
+            </select>
         <button type="submit" class="p-2 bg-blue-500 text-white rounded-lg" id="searchButton">{{ __('Search') }}</button>
     </form>
 
@@ -25,6 +33,7 @@
                 <div class="flex flex-col justify-between text-center">
                     <div class="flex flex-col justify-between h-24">
                         <a href="books/{{$book->id}}" class="font-bold text-xl mb-2">{{ $book->name }}</a>
+                        <p class="text-gray-700 text-base">{{ __('Rating') }} {{ number_format($book->average_rating, 1) }}</p>
                         <p class="text-gray-700 text-lg text-red-600 font-semibold">$ {{ $book->price }}</p>
                     </div>
                     @if ($book->stock != 0)
