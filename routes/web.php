@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class);
     Route::post('/store-reviews', [ReviewController::class, 'store'])->name('store.review');
     Route::resource('orders', OrderController::class);
+    Route::post('/orders/status', [OrderController::class, 'updateStatusShipped'])->name('orders.update_status_done');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

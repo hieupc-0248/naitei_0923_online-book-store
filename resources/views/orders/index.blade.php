@@ -23,10 +23,24 @@
                             <td class="text-gray-900 text-center">{{ $order->id }}</td>
                             <td class="text-gray-900 text-center">{{ $order->created_at }}</td>
                             <td class="text-gray-900 text-center">$ {{ $order->total }}</td>
-                            <td class="text-gray-900 text-center">{{ $order->orderStatus }}</td>
+                            <td class="text-gray-900 text-center">
+                                <div class="flex justify-center items-center">
+                                    <div class="w-28">
+                                        {{ $order->orderStatus }}
+                                    </div>
+                                    @if ($order->orderStatus !== 'shipped')
+                                        <div class="mark-as-done-button" data-order-id="{{ $order->id }}">
+                                            <x-primary-button class="bg-gray-700 text-gray-50">
+                                                {{ __('Received') }}
+                                            </x-primary-button>
+                                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                                        </div>
+                                    @endif
+                                </div>
+                            </td>
                             <td class="text-gray-900 text-center">
                                 <a href="{{ route('orders.show', ['order' => $order->id]) }}">
-                                    <x-primary-button>
+                                    <x-primary-button class="bg-gray-400">
                                         {{ __('Detail') }}
                                     </x-primary-button>
                                 </a>
@@ -38,3 +52,5 @@
         </div>
     </div>
 </x-app-layout>
+
+<script src="{{ asset('js/order.js') }}"></script>
