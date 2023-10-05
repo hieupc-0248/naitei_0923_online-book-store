@@ -29,8 +29,10 @@ class Order extends Model
 
     public function getOrderStatusAttribute()
     {
-        return isset(config('app.order_status')[$this->status])
-            ? config('app.order_status')[$this->status]
-            : config('app.order_status')['pending'];
+        $orderStatusConfig = config('app.order_status');
+
+        $statusText = array_search($this->status, $orderStatusConfig);
+
+        return $statusText !== false ? $statusText : 'pending';
     }
 }

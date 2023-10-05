@@ -80,5 +80,9 @@
     "Currently out of stock": "Currently out of stock",
     "Category": "Category",
     "Avatar Image": "Avatar Image",
-    "More Image": "More Image"
+    "More Image": "More Image",
+    "Received" : "Received",
+    "Status" : "Status",
+    "Detail" : "Detail",
+    "Created At": "Created At"
 }

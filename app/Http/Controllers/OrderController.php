@@ -147,4 +147,18 @@ class OrderController extends Controller
             return response()->json(['error' => __('error.status_already')]);
         }
     }
+
+    public function updateStatusShipped(Request $request)
+    {
+        $orderId = $request->input('orderId');
+        $order = Order::find($orderId);
+
+        if ($order) {
+            $order->status = config('app.order_status')['shipped'];
+            $order->save();
+            return response()->json(['message' => __('success.status_update_success')]);
+        } else {
+            return response()->json(['error' => __('error.order_not_found')], 404);
+        }
+    }
 }
